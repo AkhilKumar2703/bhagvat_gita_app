@@ -1,10 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".versesFragment">
+
+    <LinearLayout
+        android:id="@+id/llTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llBottom"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:id="@+id/llBhagwatGita"
+        android:layout_width="wrap_content"
+        android:layout_height="65.00dp"
+        android:layout_gravity="center"
+        android:padding="13.00dp">
+
+    <ImageView
+        android:layout_width="19.50dp"
+        android:layout_height="19.50dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/kalash" />
+
+    <TextView
+        android:id="@+id/tvBhagavat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="2.60dp"
+        android:text="Shree Bhagavat Gita"
+        android:textColor="@color/orange"
+        android:textSize="26.00sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="19.50dp"
+        android:layout_height="19.50dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/kalash" />
+
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvChapterNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Chapter 1"
+        android:textColor="@color/orange"
+        android:textSize="22.10sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvChapterTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13.00dp"
+        android:gravity="center"
+        android:text="Arjuna Visada Yoga"
+        android:textColor="@color/black"
+        android:textSize="19.50dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvChapterDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="6.50dp"
+        android:layout_marginTop="14.20dp"
+        android:maxLines="4"
+        android:text="The first chapter of the Bhagavad Gita - Arjuna Vishada Yoga introduces the setup, the setting, the characters and the circumstances that led to the epic battle of Mahabharata, fought between the Pandavas and the Kauravas. It outlines the reasons that led to the revelation of the of Bhagavad Gita. As both armies stand ready for the battle, the mighty warrior Arjuna, on observing the warriors on both sides becomes increasingly sad and depressed due to the fear of losing his relatives and friends and the consequent sins attributed to killing his own relatives. So, he surrenders to Lord Krishna, seeking a solution. Thus, follows the wisdom of the Bhagavad Gita."
+        android:textColor="@color/black"
+        android:textSize="15.60dp" />
+    <TextView
+        android:id="@+id/tvSeeMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6.50dp"
+        android:text="Read More..."
+        android:textColor="#0051F4"
+        android:textSize="14.30dp" />
+        <TextView
+            android:id="@+id/tvChapterDescriptionHindi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6.50dp"
+            android:layout_marginTop="10.20dp"
+            android:maxLines="4"
+            android:textStyle="bold"
+            android:text="भगवद गीता का पहला अध्याय अर्जुन विशाद योग उन पात्रों और परिस्थितियों का परिचय कराता है जिनके कारण पांडवों और कौरवों के बीच महाभारत का महासंग्राम हुआ। यह अध्याय उन कारणों का वर्णन करता है जिनके कारण भगवद गीता का ईश्वरावेश हुआ। जब महाबली योद्धा अर्जुन दोनों पक्षों पर युद्ध के लिए तैयार खड़े योद्धाओं को देखते हैं तो वह अपने ही रिश्तेदारों एवं मित्रों को खोने के डर तथा फलस्वरूप पापों के कारण दुखी और उदास हो जाते हैं। इसलिए वह श्री कृष्ण को पूरी तरह से आत्मसमर्पण करते हैं। इस प्रकार, भगवद गीता के ज्ञान का प्रकाश होता है।"
+            android:textColor="@color/black"
+            android:textSize="15.60dp" />
+        <TextView
+            android:id="@+id/tvSeeMoreHindi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6.50dp"
+            android:text="Read More..."
+            android:textColor="#0051F4"
+            android:textSize="14.30dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13.00dp"
+        android:layout_marginTop="19.50dp"
+        android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvNumberOfVerses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="47"
+        android:textColor="@color/black"
+        android:textSize="19.50dp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvVerses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6.50dp"
+        android:gravity="center"
+        android:text="Verses"
+        android:textColor="@color/black"
+        android:textSize="19.50dp"
+        android:textStyle="bold" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvShowingMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="No internet connection! \n Check for saved verses in settings"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="260.00dp"
+        android:gravity="center"
+        android:layout_marginHorizontal="2.60dp"
+        android:textSize="14.30sp"
+        android:textColor="@color/orange" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llBottom"
+        app:layout_constraintTop_toBottomOf="@id/llTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_margin="6.50dp"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <include layout="@layout/shimmer_iv_verse" />
+    <include layout="@layout/shimmer_iv_verse" />
+    <include layout="@layout/shimmer_iv_verse" />
+    <include layout="@layout/shimmer_iv_verse" />
+    <include layout="@layout/shimmer_iv_verse" />
+    <include layout="@layout/shimmer_iv_verse" />
+    <include layout="@layout/shimmer_iv_verse" />
+    </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvVerses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6.50dp"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_view_verses" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="260.00dp"
+        android:layout_height="260.00dp"
+        android:src="@drawable/krsna"
+        android:scaleType="centerInside"
+        android:alpha="0.15"
+        android:layout_marginTop="39.00dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llBottom"
+        android:background="@android:color/transparent" />
+
+
+
 
 
 
