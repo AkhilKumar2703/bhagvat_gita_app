@@ -5,55 +5,126 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.techmania.shreebhagavadgita.databinding.FragmentVersesBinding
+import com.techmania.shreebhagavadgita.view.adapter.AdapterVerses
+import com.techmania.shreebhagavadgita.viewmodel.MainViewModel
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [versesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class versesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+private lateinit var  binding : FragmentVersesBinding
+private lateinit var adapterVerses: AdapterVerses
+private var chapterNumber = 0
+private val viewModel : MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_verses, container, false)
+       binding =FragmentVersesBinding.inflate(layoutInflater)
+        changeStatusBarColour()
+        onReadMoreClicked()
+        getAndSetChapterDetail()
+        checkInternet()
+
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment versesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            versesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun checkInternet() {
+        val networkManager = NetworkManager(requireContext())
+        networkManager.observe(viewLifecycleOwner){
+            if(it == true){
+                binding.shimmer.visibility =View.VISIBLE
+                binding.rvVerses.visibility = View.VISIBLE
+                binding.tvShowingMessage.visibility =View.GONE
+                getAllVerses()
+            }else{
+                binding.shimmer.visibility =View.GONE
+                binding.rvVerses.visibility = View.GONE
+                binding.tvShowingMessage.visibility =View.VISIBLE
             }
+        }
     }
+
+    private fun onVersesItemVClicked(verse:String,verseNumber : Int){
+
+    }
+
+    private fun onReadMoreClicked() {
+        var isExpanded = false
+        binding.tvSeeMore.setOnClickListener {
+            if(!isExpanded){
+                binding.tvChapterDescription.maxLines = 50
+                isExpanded = true
+            }else{
+                binding.tvChapterDescription.maxLines = 4
+                isExpanded = false
+            }
+        }
+        binding.tvSeeMoreHindi.setOnClickListener {
+            if(!isExpanded){
+                binding.tvChapterDescriptionHindi.maxLines = 50
+                isExpanded = true
+            }else{
+                binding.tvChapterDescriptionHindi.maxLines = 4
+                isExpanded = false
+            }
+        }
+    }
+
+    private fun getAndSetChapterDetail() {
+        val bundle = arguments
+        chapterNumber = bundle?.getInt("chapterNumber")!!
+        binding.tvChapterNumber.text = "Chapter ${bundle?.getInt("chapterNumber")}"
+        binding.tvChapterTitle.text = bundle?.getString("chapterTitle")
+        binding.tvChapterDescription.text = bundle?.getString("chapterDesc")
+        binding.tvChapterDescriptionHindi.text = bundle?.getString("chapterDescHindi")
+        binding.tvNumberOfVerses.text = bundle?.getInt("verseCount").toString()
+
+    }
+
+    private fun getAllVerses() {
+        lifecycleScope.launch {
+            viewModel.getVerses(chapterNumber).collect{
+                adapterVerses = AdapterVerses(::onVersesItemVClicked)
+                binding.rvVerses.adapter = adapterVerses
+                val verseList  = arrayListOf<String>()
+
+                for (currentVerse in it) {
+                   for (verses in currentVerse.translations) {
+                       if(verses.language == "hindi"){
+                           verseList.add(verses.description)
+                           break
+                       }
+                   }
+                }
+
+
+                adapterVerses.differ.submitList(verseList)
+
+                binding.shimmer.visibility = View.GONE
+
+            }
+        }
+
+    }
+    private fun changeStatusBarColour() {
+        val window = activity?.window
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
+        if (window != null) {
+            WindowCompat.getInsetsController(window, window.decorView).apply {
+                isAppearanceLightStatusBars = true
+            }
+        }
+    }
+
+
 }

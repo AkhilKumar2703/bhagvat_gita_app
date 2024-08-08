@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.techmania.shreebhagavadgita.databinding.FragmentHomeBinding
 import com.techmania.shreebhagavadgita.databinding.ItemViewChaptersBinding
 import com.techmania.shreebhagavadgita.models.ChaptersItem
 
-class AdapterChapters : RecyclerView.Adapter<AdapterChapters.ChapterViewHolder>() {
+class AdapterChapters(val onChapterIVClicked: (ChaptersItem) -> Unit) : RecyclerView.Adapter<AdapterChapters.ChapterViewHolder>() {
 
     class ChapterViewHolder(val binding:ItemViewChaptersBinding): ViewHolder(binding.root)
 
@@ -45,6 +44,11 @@ class AdapterChapters : RecyclerView.Adapter<AdapterChapters.ChapterViewHolder>(
             tvChapterDescriptionHindi.text = chapter.chapter_summary_hindi
             tvVersesCount.text = chapter.verses_count.toString()
         }
+
+         holder.binding.ll.setOnClickListener{
+             onChapterIVClicked(chapter)
+         }
+
 
     }
 

@@ -1,7 +1,6 @@
 package com.techmania.shreebhagavadgita
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +10,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.techmania.shreebhagavadgita.databinding.FragmentHomeBinding
+import com.techmania.shreebhagavadgita.models.ChaptersItem
 import com.techmania.shreebhagavadgita.view.adapter.AdapterChapters
 import com.techmania.shreebhagavadgita.viewmodel.MainViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -54,7 +54,7 @@ private  val viewModel : MainViewModel by viewModels()
     private fun getAllChapter() {
         lifecycleScope.launch {
             viewModel.getAllChapter().collect{chapterList ->
-               adapterChapters = AdapterChapters()
+               adapterChapters = AdapterChapters(::onChapterIVClicked)
                 binding.rvChapters.adapter =adapterChapters
                 adapterChapters.differ.submitList(chapterList)
                 binding.shimmer.visibility = View.GONE
@@ -62,6 +62,16 @@ private  val viewModel : MainViewModel by viewModels()
             }
 
         }
+    }
+
+    private  fun onChapterIVClicked(chaptersItem: ChaptersItem){
+        val  bundle = Bundle()
+        bundle.putInt("chapterNumber",chaptersItem.chapter_number)
+        bundle.putString("chapterTitle",chaptersItem.name_translated)
+        bundle.putString("chapterDesc",chaptersItem.chapter_summary)
+        bundle.putString("chapterDescHindi",chaptersItem.chapter_summary_hindi)
+        bundle.putInt("verseCount",chaptersItem.verses_count)
+findNavController().navigate(R.id.action_homeFragment_to_versesFragment,bundle)
     }
 
     private fun changeStatusBarColour() {
