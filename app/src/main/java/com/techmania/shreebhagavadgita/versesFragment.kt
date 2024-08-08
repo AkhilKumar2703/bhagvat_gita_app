@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.techmania.shreebhagavadgita.databinding.FragmentVersesBinding
 import com.techmania.shreebhagavadgita.view.adapter.AdapterVerses
 import com.techmania.shreebhagavadgita.viewmodel.MainViewModel
@@ -54,7 +55,7 @@ private val viewModel : MainViewModel by viewModels()
     }
 
     private fun onVersesItemVClicked(verse:String,verseNumber : Int){
-
+findNavController().navigate(R.id.action_versesFragment_to_versesDetailFragment)
     }
 
     private fun onReadMoreClicked() {

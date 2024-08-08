@@ -27,5 +27,14 @@
         android:id="@+id/versesFragment"
         android:name="com.techmania.shreebhagavadgita.versesFragment"
         android:label="fragment_verses"
-        tools:layout="@layout/fragment_verses" />
+        tools:layout="@layout/fragment_verses" >
+        <action
+            android:id="@+id/action_versesFragment_to_versesDetailFragment"
+            app:destination="@id/versesDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/versesDetailFragment"
+        android:name="com.techmania.shreebhagavadgita.versesDetailFragment"
+        android:label="fragment_verses_detail"
+        tools:layout="@layout/fragment_verses_detail" />
 </navigation>
