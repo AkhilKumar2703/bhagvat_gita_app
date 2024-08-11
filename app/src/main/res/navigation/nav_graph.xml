@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_versesFragment"
             app:destination="@id/versesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/versesFragment"
@@ -37,4 +40,34 @@
         android:name="com.techmania.shreebhagavadgita.versesDetailFragment"
         android:label="fragment_verses_detail"
         tools:layout="@layout/fragment_verses_detail" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.techmania.shreebhagavadgita.settingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_savedChaptersFragment"
+            app:destination="@id/savedChaptersFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_savedVersesFragment"
+            app:destination="@id/savedVersesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedChaptersFragment"
+        android:name="com.techmania.shreebhagavadgita.savedChaptersFragment"
+        android:label="fragment_saved_chapters"
+        tools:layout="@layout/fragment_saved_chapters" >
+        <action
+            android:id="@+id/action_savedChaptersFragment_to_versesFragment"
+            app:destination="@id/versesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedVersesFragment"
+        android:name="com.techmania.shreebhagavadgita.savedVersesFragment"
+        android:label="fragment_saved_verses"
+        tools:layout="@layout/fragment_saved_verses" >
+        <action
+            android:id="@+id/action_savedVersesFragment_to_versesDetailFragment"
+            app:destination="@id/versesDetailFragment" />
+    </fragment>
 </navigation>

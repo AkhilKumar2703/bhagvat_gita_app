@@ -34,9 +34,43 @@ class versesDetailFragment : Fragment() {
          getAndSetChapAndVerseNum()
          onReadMoreClicked()
          getVerseDetail()
-
+         checkInternet()
          return binding.root
     }
+
+
+    private fun checkInternet() {
+        val networkManager = NetworkManager(requireContext())
+        networkManager.observe(viewLifecycleOwner){
+            if(it == true){
+//                binding.shimmer.visibility =View.VISIBLE
+//                binding.rvVerses.visibility = View.VISIBLE
+                binding.tvShowingMessage.visibility =View.GONE
+                binding.iv.visibility =View.GONE
+                binding.progressbar.visibility =View.VISIBLE
+                getVerseDetail()
+            }else{
+              binding.progressbar.visibility =View.GONE
+                binding.tvShowingMessage.visibility =View.VISIBLE
+                binding.iv.visibility =View.VISIBLE
+
+
+                binding.tvVerseNumber.visibility =View.GONE
+                binding.tvVerseText.visibility =View.GONE
+                binding.tvTransliterationIfEnglish.visibility =View.GONE
+                binding.tvWordIfEnglish.visibility =View.GONE
+                binding.view.visibility =View.GONE
+                binding.tvTranslation.visibility =View.GONE
+                binding.clTranslation.visibility =View.GONE
+                binding.tvCommentries.visibility =View.GONE
+                binding.clCommentries.visibility =View.GONE
+                binding.backgroundImage.visibility =View.GONE
+                binding.ivFavoriteVerse.visibility =View.GONE
+            }
+        }
+    }
+
+
 
     private fun onReadMoreClicked() {
         var isExpanded = false
@@ -54,6 +88,8 @@ class versesDetailFragment : Fragment() {
     }
 
     private fun getVerseDetail() {
+
+
         lifecycleScope.launch {
             viewModel.getAParticularVerse(chapterNum,verseNum).collect{verse ->
                 binding.tvVerseText.text = verse.text
@@ -140,6 +176,20 @@ class versesDetailFragment : Fragment() {
                 }
 
             }
+            binding.progressbar.visibility =View.GONE
+
+            binding.tvVerseNumber.visibility =View.VISIBLE
+            binding.tvVerseText.visibility =View.VISIBLE
+            binding.tvTransliterationIfEnglish.visibility =View.VISIBLE
+            binding.tvWordIfEnglish.visibility =View.VISIBLE
+            binding.view.visibility =View.VISIBLE
+            binding.tvTranslation.visibility =View.VISIBLE
+            binding.clTranslation.visibility =View.VISIBLE
+            binding.tvCommentries.visibility =View.VISIBLE
+            binding.clCommentries.visibility =View.VISIBLE
+            binding.backgroundImage.visibility =View.VISIBLE
+            binding.ivFavoriteVerse.visibility =View.VISIBLE
+
         }
 
     }
