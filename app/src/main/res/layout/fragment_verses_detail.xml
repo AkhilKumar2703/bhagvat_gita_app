@@ -166,27 +166,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/llBottom"
                 android:background="@android:color/transparent" />
+
             <LinearLayout
                 android:id="@+id/llBottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llTop"
-                app:layout_constraintEnd_toEnd0f="parent">
+                app:layout_constraintTop_toBottomOf="@id/llTop">
 
                 <TextView
                     android:id="@+id/tvTranslation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Translations"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:visibility="visible"
                     android:layout_marginHorizontal="6.50dp"
-                    android:textSize="19.50sp"
+                    android:layout_marginTop="13.00dp"
+                    android:gravity="center"
+                    android:text="Translations"
                     android:textColor="@color/black"
-                    android:layout_marginTop="13.00dp" />
+                    android:textSize="19.50sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clTranslation"
@@ -207,6 +208,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -221,6 +223,7 @@
                                 android:textColor="#575656"
                                 android:textSize="15.00sp"
                                 android:textStyle="bold" />
+
                             <TextView
                                 android:id="@+id/tvArrow"
                                 android:layout_width="wrap_content"
@@ -240,56 +243,57 @@
                                 android:textStyle="bold" />
 
                         </LinearLayout>
+
                         <TextView
                             android:id="@+id/tvText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="#000000"
                             android:paddingHorizontal="6.50dp"
                             android:paddingBottom="26.00dp"
                             android:text="There (in that army) are heroes, great bowmen, such as Bhima and Arjuna; Yuyudhana, Virata, and Drupada, a mighty warrior"
-                            android:textSize="16.90sp"/>
+                            android:textColor="#000000"
+                            android:textSize="16.90sp" />
                     </LinearLayout>
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/fabTranslationRight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="9.10dp"
+                        android:backgroundTint="@color/orange"
+                        android:src="@drawable/baseline_keyboard_arrow_right_24"
                         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
                         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                        android:src="@drawable/baseline_keyboard_arrow_right_24"
-                        app:tint="@color/white"
-                        android:layout_marginEnd="9.10dp"
-                        android:backgroundTint="@color/orange" />
+                        app:tint="@color/white" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/fabTranslationLeft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="9.10dp"
+                        android:backgroundTint="@color/orange"
+                        android:src="@drawable/baseline_keyboard_arrow_left_24"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+
                         app:layout_constraintStart_toStartOf="@+id/linearLayout"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                        android:src="@drawable/baseline_keyboard_arrow_left_24"
-
-                        app:tint="@color/white"
-                        android:layout_marginEnd="9.10dp"
-                        android:backgroundTint="@color/orange" />
+                        app:tint="@color/white" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/tvCommentries"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Commentary"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:visibility="visible"
                     android:layout_marginHorizontal="6.50dp"
-                    android:textSize="19.50sp"
+                    android:layout_marginTop="13.00dp"
+                    android:gravity="center"
+                    android:text="Commentary"
                     android:textColor="@color/black"
-                    android:layout_marginTop="13.00dp" />
+                    android:textSize="19.50sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clCommentries"
@@ -310,6 +314,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -324,6 +329,7 @@
                                 android:textColor="#575656"
                                 android:textSize="15.00sp"
                                 android:textStyle="bold" />
+
                             <TextView
                                 android:id="@+id/tvArrowCommentary"
                                 android:layout_width="wrap_content"
@@ -343,24 +349,26 @@
                                 android:textStyle="bold" />
 
                         </LinearLayout>
+
                         <TextView
                             android:id="@+id/tvTextCommentary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="#000000"
+                            android:maxLines="3"
                             android:paddingHorizontal="6.50dp"
                             android:paddingBottom="26.00dp"
-                            android:maxLines="3"
                             android:text="There (in that army) are heroes, great bowmen, such as Bhima and Arjuna; Yuyudhana, Virata, and Drupada, a mighty warrior"
-                            android:textSize="16.90sp"/>
+                            android:textColor="#000000"
+                            android:textSize="16.90sp" />
+
                         <TextView
                             android:id="@+id/tvSeeMore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6.50dp"
+                            android:paddingBottom="26.00dp"
                             android:text="Read More..."
                             android:textColor="#0051F4"
-                            android:paddingBottom="26.00dp"
                             android:textSize="14.30dp" />
 
                     </LinearLayout>
@@ -369,27 +377,27 @@
                         android:id="@+id/fabCommentaryRight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="9.10dp"
+                        android:backgroundTint="@color/orange"
+                        android:src="@drawable/baseline_keyboard_arrow_right_24"
                         app:layout_constraintBottom_toBottomOf="@+id/llCommentry"
                         app:layout_constraintEnd_toEndOf="@+id/llCommentry"
                         app:layout_constraintTop_toBottomOf="@+id/llCommentry"
-                        android:src="@drawable/baseline_keyboard_arrow_right_24"
-                        app:tint="@color/white"
-                        android:layout_marginEnd="9.10dp"
-                        android:backgroundTint="@color/orange" />
+                        app:tint="@color/white" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/fabCommentaryLeft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="9.10dp"
+                        android:backgroundTint="@color/orange"
+                        android:src="@drawable/baseline_keyboard_arrow_left_24"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/llCommentry"
+
                         app:layout_constraintStart_toStartOf="@+id/llCommentry"
                         app:layout_constraintTop_toBottomOf="@+id/llCommentry"
-                        android:src="@drawable/baseline_keyboard_arrow_left_24"
-
-                        app:tint="@color/white"
-                        android:layout_marginEnd="9.10dp"
-                        android:backgroundTint="@color/orange" />
+                        app:tint="@color/white" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
             <ImageView

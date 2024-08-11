@@ -56,4 +56,22 @@ class AppRepository {
         ApiUtilities.api.getVerses(chapterNumber).enqueue(callback)
         awaitClose {  }
     }
+
+    fun getAParticularVerse(chapterNumber: Int,verseNumber: Int): Flow<VersesItem> = callbackFlow {
+        val callback = object : Callback<VersesItem>{
+            override fun onResponse(call: Call<VersesItem>, response: Response<VersesItem>) {
+                if (response.isSuccessful && response.body()!= null) {
+                    trySend(response.body()!!)
+                    close()
+                }
+            }
+
+            override fun onFailure(call: Call<VersesItem>, t: Throwable) {
+                close(t)
+            }
+
+        }
+        ApiUtilities.api.getAParticularVerse(chapterNumber,verseNumber).enqueue(callback)
+        awaitClose {  }
+    }
 }

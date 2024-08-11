@@ -55,7 +55,10 @@ private val viewModel : MainViewModel by viewModels()
     }
 
     private fun onVersesItemVClicked(verse:String,verseNumber : Int){
-findNavController().navigate(R.id.action_versesFragment_to_versesDetailFragment)
+        val bundle = Bundle()
+        bundle.putInt("chapterNum",chapterNumber)
+        bundle.putInt("verseNum",verseNumber)
+findNavController().navigate(R.id.action_versesFragment_to_versesDetailFragment,bundle)
     }
 
     private fun onReadMoreClicked() {
@@ -64,18 +67,22 @@ findNavController().navigate(R.id.action_versesFragment_to_versesDetailFragment)
             if(!isExpanded){
                 binding.tvChapterDescription.maxLines = 50
                 isExpanded = true
+                binding.tvSeeMore.text="Read Less"
             }else{
                 binding.tvChapterDescription.maxLines = 4
                 isExpanded = false
+                binding.tvSeeMore.text="Read More..."
             }
         }
         binding.tvSeeMoreHindi.setOnClickListener {
             if(!isExpanded){
                 binding.tvChapterDescriptionHindi.maxLines = 50
                 isExpanded = true
+                binding.tvSeeMoreHindi.text="Read Less"
             }else{
                 binding.tvChapterDescriptionHindi.maxLines = 4
                 isExpanded = false
+                binding.tvSeeMoreHindi.text="Read More..."
             }
         }
     }

@@ -10,4 +10,6 @@ class MainViewModel: ViewModel() {
     val appRepository = AppRepository()
     fun getAllChapter() : Flow<List<ChaptersItem>> = appRepository.getAllChapter()
     fun getVerses(chapterNumber : Int) : Flow<List<VersesItem>> = appRepository.getVerses(chapterNumber)
+
+    fun getAParticularVerse(chapterNumber: Int,verseNumber: Int): Flow<VersesItem> = appRepository.getAParticularVerse(chapterNumber,verseNumber)
 }
