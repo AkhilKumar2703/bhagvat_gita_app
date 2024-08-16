@@ -5,7 +5,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.techmania.shreebhagavadgita.Chapters
 
 
 @Dao
@@ -21,6 +20,6 @@ interface SavedChaptersDao {
    fun deleteChapter(id :Int)
 
    @Query("SELECT * FROM SavedChapters WHERE  chapter_number = :chapter_number")
-   fun getAParticularChapter(chapter_number : Int)
+   fun getAParticularChapter(chapter_number : Int) : LiveData<SavedChapters>
 
 }

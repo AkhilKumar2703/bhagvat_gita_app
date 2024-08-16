@@ -1,17 +1,18 @@
 package com.techmania.shreebhagavadgita
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.techmania.shreebhagavadgita.databinding.FragmentHomeBinding
+import com.techmania.shreebhagavadgita.datasource.api.room.SavedChapters
 import com.techmania.shreebhagavadgita.models.ChaptersItem
 import com.techmania.shreebhagavadgita.view.adapter.AdapterChapters
 import com.techmania.shreebhagavadgita.viewmodel.MainViewModel
@@ -31,8 +32,42 @@ private  val viewModel : MainViewModel by viewModels()
         changeStatusBarColour()
         checkInternetConnectivity()
         getAllChapter()
-
+        binding.ivSettings.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_settingsFragment) }
         return binding.root
+    }
+
+    fun onFavClicked(chaptersItem: ChaptersItem){
+        lifecycleScope.launch {
+            viewModel.getVerses(chaptersItem.chapter_number).collect{
+                val verseList  = arrayListOf<String>()
+                for (currentVerse in it) {
+                    for (verses in currentVerse.translations) {
+                        if(verses.language == "hindi"){
+                            verseList.add(verses.description)
+                            break
+                        }
+                    }
+                }
+
+               val savedChapters = SavedChapters(
+                   chapter_number = chaptersItem.chapter_number,
+                   chapter_summary = chaptersItem.chapter_summary,
+                   chapter_summary_hindi = chaptersItem.chapter_summary_hindi,
+                   id = chaptersItem.id,
+                   name = chaptersItem.name,
+                   name_meaning = chaptersItem.name_meaning,
+                   name_translated = chaptersItem.name_translated,
+                   name_transliterated = chaptersItem.name_transliterated,
+                   slug = chaptersItem.slug,
+                   verses_count = chaptersItem.verses_count,
+                   verses = verseList
+
+
+
+               )
+                viewModel.insertChapters(savedChapters)
+            }
+        }
     }
 
     private fun checkInternetConnectivity() {
@@ -54,7 +89,7 @@ private  val viewModel : MainViewModel by viewModels()
     private fun getAllChapter() {
         lifecycleScope.launch {
             viewModel.getAllChapter().collect{chapterList ->
-               adapterChapters = AdapterChapters(::onChapterIVClicked)
+               adapterChapters = AdapterChapters(::onChapterIVClicked,::onFavClicked)
                 binding.rvChapters.adapter =adapterChapters
                 adapterChapters.differ.submitList(chapterList)
                 binding.shimmer.visibility = View.GONE

@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.techmania.shreebhagavadgita.databinding.ItemViewChaptersBinding
 import com.techmania.shreebhagavadgita.models.ChaptersItem
 
-class AdapterChapters(val onChapterIVClicked: (ChaptersItem) -> Unit) : RecyclerView.Adapter<AdapterChapters.ChapterViewHolder>() {
+class AdapterChapters(
+    val onChapterIVClicked: (ChaptersItem) -> Unit,
+   val onFavClicked: (ChaptersItem) -> Unit
+) : RecyclerView.Adapter<AdapterChapters.ChapterViewHolder>() {
 
     class ChapterViewHolder(val binding:ItemViewChaptersBinding): ViewHolder(binding.root)
 
@@ -49,6 +52,9 @@ class AdapterChapters(val onChapterIVClicked: (ChaptersItem) -> Unit) : Recycler
              onChapterIVClicked(chapter)
          }
 
+        holder.binding.apply {
+            ivFavorite.setOnClickListener { onFavClicked(chapter) }
+        }
 
     }
 

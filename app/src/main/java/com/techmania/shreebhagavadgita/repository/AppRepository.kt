@@ -1,6 +1,8 @@
 package com.techmania.shreebhagavadgita.repository
 
 import com.techmania.shreebhagavadgita.datasource.api.ApiUtilities
+import com.techmania.shreebhagavadgita.datasource.api.room.SavedChapters
+import com.techmania.shreebhagavadgita.datasource.api.room.SavedChaptersDao
 import com.techmania.shreebhagavadgita.models.ChaptersItem
 import com.techmania.shreebhagavadgita.models.VersesItem
 import kotlinx.coroutines.channels.awaitClose
@@ -11,7 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class AppRepository {
+class AppRepository(val savedChaptersDao: SavedChaptersDao) {
 
     fun getAllChapter() : Flow<List<ChaptersItem>> = callbackFlow {
         val callback =object  : Callback<List<ChaptersItem>>{
@@ -74,4 +76,6 @@ class AppRepository {
         ApiUtilities.api.getAParticularVerse(chapterNumber,verseNumber).enqueue(callback)
         awaitClose {  }
     }
+
+    suspend fun insertChapters(savedChapters: SavedChapters)= savedChaptersDao.insertChapters(savedChapters)
 }
