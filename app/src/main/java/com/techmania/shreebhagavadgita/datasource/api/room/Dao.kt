@@ -23,3 +23,22 @@ interface SavedChaptersDao {
    fun getAParticularChapter(chapter_number : Int) : LiveData<SavedChapters>
 
 }
+
+@Dao
+interface SavedVersesDao{
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertVerse(verses: SavedVerses)
+
+    @Query("SELECT * FROM SavedVerses")
+    fun getAllVerse(): LiveData<List<SavedVerses>>
+
+
+    @Query("SELECT * FROM SavedVerses WHERE  chapter_number = :chapterNumber AND verse_number = :verseNumber")
+    fun getParticularVerse(chapterNumber : Int,verseNumber : Int) : LiveData<SavedVerses>
+
+    @Query("DELETE FROM SavedVerses WHERE  chapter_number = :chapterNumber AND verse_number = :verseNumber")
+    suspend fun deleteVerse(chapterNumber : Int,verseNumber : Int)
+
+
+}

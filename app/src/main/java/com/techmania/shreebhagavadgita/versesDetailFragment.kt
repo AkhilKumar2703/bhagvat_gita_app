@@ -2,20 +2,22 @@ package com.techmania.shreebhagavadgita
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.techmania.shreebhagavadgita.databinding.FragmentVersesDetailBinding
+import com.techmania.shreebhagavadgita.datasource.api.room.SavedVerses
 import com.techmania.shreebhagavadgita.models.Commentary
 import com.techmania.shreebhagavadgita.models.Translation
+import com.techmania.shreebhagavadgita.models.VersesItem
 import com.techmania.shreebhagavadgita.viewmodel.MainViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -24,6 +26,7 @@ class versesDetailFragment : Fragment() {
     private  val viewModel : MainViewModel by viewModels()
     private var chapterNum = 0
     private var verseNum = 0
+    private var verseDetail = MutableLiveData<VersesItem>()
      @SuppressLint("SuspiciousIndentation")
      override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +37,78 @@ class versesDetailFragment : Fragment() {
          getAndSetChapAndVerseNum()
          onReadMoreClicked()
          getVerseDetail()
-         checkInternet()
+
+         onSaveVerse()
+         getData()
          return binding.root
+    }
+
+    private fun getData() {
+        val bundle =  arguments
+        val showRoomData = bundle!!.getBoolean("showRoomData",false)
+        if(showRoomData == true){
+            viewModel.getParticularVerse().observe(viewLifecycleOwner) {
+                binding.tvVerseNumber.text = "||$chapterNum.$verseNum||"
+                binding.tvVerseText.text = verse.text
+                binding.tvTransliterationIfEnglish.text = verse.transliteration
+                binding.tvWordIfEnglish.text = verse.word_meanings
+
+            }
+        }else{
+            checkInternet()
+        }
+    }
+
+    private fun onSaveVerse() {
+
+        binding.ivFavoriteVerseFilled.setOnClickListener {
+            binding.ivFavoriteVerse.visibility = View.VISIBLE
+            binding.ivFavoriteVerseFilled.visibility = View.GONE
+        }
+
+        binding.ivFavoriteVerse.setOnClickListener {
+            binding.ivFavoriteVerse.visibility = View.GONE
+            binding.ivFavoriteVerseFilled.visibility = View.VISIBLE
+
+            savingVerseDetails()
+        }
+    }
+    fun savingVerseDetails(){
+        verseDetail.observe(viewLifecycleOwner){
+            val commentaryList = arrayListOf<Commentary>()
+            for (i in it.commentaries){
+                if (i.language == "hindi" || i.language == "english"){
+                    commentaryList.add(i)
+
+                }
+            }
+
+            val hindiTranslationList = arrayListOf<Translation>()
+            for (i in it.translations){
+                if (i.language == "hindi" || i.language == "english"){
+                    hindiTranslationList.add(i)
+
+                }
+            }
+
+
+         val savedVerses = SavedVerses(it.chapter_number,
+             commentaryList,
+             it.id,
+             it.slug,
+             it.text,
+             hindiTranslationList,
+             it.transliteration,
+             it.verse_number,
+             it.word_meanings
+         )
+
+         lifecycleScope.launch {
+             viewModel.insertVerse(savedVerses)
+         }
+
+
+        }
     }
 
 
@@ -92,6 +165,7 @@ class versesDetailFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.getAParticularVerse(chapterNum,verseNum).collect{verse ->
+                verseDetail.postValue(verse)
                 binding.tvVerseText.text = verse.text
                 binding.tvTransliterationIfEnglish.text = verse.transliteration
                 binding.tvWordIfEnglish.text = verse.word_meanings

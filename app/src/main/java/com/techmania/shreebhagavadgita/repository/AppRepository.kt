@@ -1,8 +1,11 @@
 package com.techmania.shreebhagavadgita.repository
 
+import androidx.lifecycle.LiveData
 import com.techmania.shreebhagavadgita.datasource.api.ApiUtilities
 import com.techmania.shreebhagavadgita.datasource.api.room.SavedChapters
 import com.techmania.shreebhagavadgita.datasource.api.room.SavedChaptersDao
+import com.techmania.shreebhagavadgita.datasource.api.room.SavedVerses
+import com.techmania.shreebhagavadgita.datasource.api.room.SavedVersesDao
 import com.techmania.shreebhagavadgita.models.ChaptersItem
 import com.techmania.shreebhagavadgita.models.VersesItem
 import kotlinx.coroutines.channels.awaitClose
@@ -13,7 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class AppRepository(val savedChaptersDao: SavedChaptersDao) {
+class AppRepository(val savedChaptersDao: SavedChaptersDao,val savedVersesDao: SavedVersesDao) {
 
     fun getAllChapter() : Flow<List<ChaptersItem>> = callbackFlow {
         val callback =object  : Callback<List<ChaptersItem>>{
@@ -77,5 +80,17 @@ class AppRepository(val savedChaptersDao: SavedChaptersDao) {
         awaitClose {  }
     }
 
+    // saved chapters
     suspend fun insertChapters(savedChapters: SavedChapters)= savedChaptersDao.insertChapters(savedChapters)
+
+    fun getSavedChapter(): LiveData<List<SavedChapters>> = savedChaptersDao.getSavedChapter()
+    fun getAParticularChapter(chapter_number : Int) : LiveData<SavedChapters> = savedChaptersDao.getAParticularChapter(chapter_number)
+
+
+    //saved verses
+
+    suspend fun deleteVerse(chapterNumber : Int,verseNumber : Int) =  savedVersesDao.deleteVerse(chapterNumber,verseNumber)
+    fun getParticularVerse(chapterNumber : Int,verseNumber : Int) = savedVersesDao.getParticularVerse(chapterNumber, verseNumber)
+    fun getAllVerse(): LiveData<List<SavedVerses>> =  savedVersesDao.getAllVerse()
+    suspend fun insertVerse(verses: SavedVerses)  = savedVersesDao.insertVerse(verses)
 }
