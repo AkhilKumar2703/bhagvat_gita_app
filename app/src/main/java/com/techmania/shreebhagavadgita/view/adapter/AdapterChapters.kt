@@ -1,6 +1,7 @@
 package com.techmania.shreebhagavadgita.view.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -8,10 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.techmania.shreebhagavadgita.databinding.ItemViewChaptersBinding
 import com.techmania.shreebhagavadgita.models.ChaptersItem
+import kotlin.reflect.KFunction1
 
 class AdapterChapters(
     val onChapterIVClicked: (ChaptersItem) -> Unit,
-   val onFavClicked: (ChaptersItem) -> Unit
+    val onFavClicked: (ChaptersItem) -> Unit,
+    val onFavFilledClicked: KFunction1<ChaptersItem, Unit>
 ) : RecyclerView.Adapter<AdapterChapters.ChapterViewHolder>() {
 
     class ChapterViewHolder(val binding:ItemViewChaptersBinding): ViewHolder(binding.root)
@@ -53,7 +56,17 @@ class AdapterChapters(
          }
 
         holder.binding.apply {
-            ivFavorite.setOnClickListener { onFavClicked(chapter) }
+            ivFavorite.setOnClickListener {
+                ivFavoriteFilled.visibility = View.VISIBLE
+                ivFavorite.visibility = View.GONE
+                onFavClicked(chapter) }
+
+            ivFavoriteFilled.setOnClickListener {
+                ivFavorite.visibility = View.VISIBLE
+                ivFavoriteFilled.visibility = View.GONE
+                onFavFilledClicked(chapter)
+                 }
+
         }
 
     }

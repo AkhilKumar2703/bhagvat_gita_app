@@ -36,7 +36,7 @@ private  val viewModel : MainViewModel by viewModels()
         return binding.root
     }
 
-    fun onFavClicked(chaptersItem: ChaptersItem){
+    private fun onFavClicked(chaptersItem: ChaptersItem){
         lifecycleScope.launch {
             viewModel.getVerses(chaptersItem.chapter_number).collect{
                 val verseList  = arrayListOf<String>()
@@ -70,6 +70,15 @@ private  val viewModel : MainViewModel by viewModels()
         }
     }
 
+
+    private fun onFavFilledClicked(chaptersItem: ChaptersItem){
+        lifecycleScope.launch {
+            viewModel.deleteChapter(chaptersItem.id)
+        }
+    }
+
+
+
     private fun checkInternetConnectivity() {
         val networkManager = NetworkManager(requireContext())
         networkManager.observe(viewLifecycleOwner){
@@ -89,7 +98,7 @@ private  val viewModel : MainViewModel by viewModels()
     private fun getAllChapter() {
         lifecycleScope.launch {
             viewModel.getAllChapter().collect{chapterList ->
-               adapterChapters = AdapterChapters(::onChapterIVClicked,::onFavClicked)
+               adapterChapters = AdapterChapters(::onChapterIVClicked,::onFavClicked,::onFavFilledClicked)
                 binding.rvChapters.adapter =adapterChapters
                 adapterChapters.differ.submitList(chapterList)
                 binding.shimmer.visibility = View.GONE

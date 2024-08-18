@@ -24,6 +24,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     suspend fun insertChapters(savedChapters: SavedChapters)= appRepository.insertChapters(savedChapters)
     fun getSavedChapter(): LiveData<List<SavedChapters>> = appRepository.getSavedChapter()
     fun getAParticularChapter(chapter_number : Int) : LiveData<SavedChapters> = appRepository.getAParticularChapter(chapter_number)
+    suspend fun deleteChapter(id :Int) = appRepository.deleteChapter(id)
+
 
     // saved verse
     suspend fun deleteVerse(chapterNumber : Int,verseNumber : Int) =  appRepository.deleteVerse(chapterNumber,verseNumber)

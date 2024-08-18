@@ -112,7 +112,7 @@
         android:layout_marginHorizontal="2.60dp"
         android:layout_marginTop="260dp"
         android:gravity="center"
-        android:text="No Chapters Saved ,Next Time "
+        android:text="No Verses Saved ,Next Time "
         android:textColor="#DC491C"
         android:textSize="14.30sp"
         android:textStyle="bold"

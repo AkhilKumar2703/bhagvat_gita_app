@@ -47,16 +47,117 @@ class versesDetailFragment : Fragment() {
         val bundle =  arguments
         val showRoomData = bundle!!.getBoolean("showRoomData",false)
         if(showRoomData == true){
-            viewModel.getParticularVerse().observe(viewLifecycleOwner) {
-                binding.tvVerseNumber.text = "||$chapterNum.$verseNum||"
+            binding.ivFavoriteVerse.visibility = View.GONE
+            binding.ivFavoriteVerseFilled.visibility = View.GONE
+            viewModel.getParticularVerse(chapterNum,verseNum).observe(viewLifecycleOwner) { verse ->
+
                 binding.tvVerseText.text = verse.text
                 binding.tvTransliterationIfEnglish.text = verse.transliteration
                 binding.tvWordIfEnglish.text = verse.word_meanings
+
+                val hindiTranslationList = arrayListOf<Translation>()
+                for (i in verse.translations){
+                    if (i.language == "hindi" || i.language == "english"){
+                        hindiTranslationList.add(i)
+
+                    }
+                }
+                val hindiTranslationListSize = hindiTranslationList.size
+                if(hindiTranslationList.isNotEmpty()){
+                    binding.tvAuthorName.text=hindiTranslationList[0].author_name
+                    binding.tvText.text= hindiTranslationList[0].description
+                    if (hindiTranslationListSize==1) binding.fabTranslationRight.visibility = View.GONE
+
+                    var i =0
+                    binding.fabTranslationRight.setOnClickListener {
+                        if(i < hindiTranslationListSize-1){
+                            i++
+                            binding.tvAuthorName.text=hindiTranslationList[i].author_name
+                            binding.tvText.text= hindiTranslationList[i].description
+                            binding.fabTranslationLeft.visibility =View.VISIBLE
+
+                            if(i == hindiTranslationListSize-1)binding.fabTranslationRight.visibility =View.GONE
+
+                        }
+                    }
+
+                    binding.fabTranslationLeft.setOnClickListener {
+                        if(i>0){
+                            i--
+                            binding.tvAuthorName.text=hindiTranslationList[i].author_name
+                            binding.tvText.text= hindiTranslationList[i].description
+                            binding.fabTranslationRight.visibility =View.VISIBLE
+                            if(i == 0)binding.fabTranslationLeft.visibility =View.GONE
+                        }
+                    }
+
+                }
+
+
+                val commentaryList = arrayListOf<Commentary>()
+                for (i in verse.commentaries){
+                    if (i.language == "hindi" || i.language == "english"){
+                        commentaryList.add(i)
+
+                    }
+                }
+                val commentaryListSize = commentaryList.size
+                if (commentaryList.isNotEmpty()){
+                    binding.tvAuthorCommentary.text=commentaryList[0].author_name
+                    binding.tvTextCommentary.text= commentaryList[0].description
+                    if (commentaryListSize==1) binding.fabCommentaryRight.visibility = View.GONE
+
+                    var i =0
+                    binding.fabCommentaryRight.setOnClickListener {
+                        if(i < commentaryListSize-1){
+                            i++
+                            binding.tvAuthorNameCommentary.text=commentaryList[i].author_name
+                            binding.tvTextCommentary.text= commentaryList[i].description
+                            binding.fabCommentaryLeft.visibility =View.VISIBLE
+
+                            if(i == commentaryListSize-1)binding.fabCommentaryRight.visibility =View.GONE
+
+                        }
+                    }
+
+                    binding.fabCommentaryLeft.setOnClickListener {
+                        if(i>0){
+                            i--
+                            binding.tvAuthorCommentary.text=commentaryList[i].author_name
+                            binding.tvTextCommentary.text= commentaryList[i].description
+                            binding.fabCommentaryRight.visibility =View.VISIBLE
+                            if(i == 0)binding.fabCommentaryLeft.visibility =View.GONE
+                        }
+                    }
+
+
+
+                }
+
+                binding.progressbar.visibility =View.GONE
+                binding.tvVerseNumber.visibility =View.VISIBLE
+                binding.tvVerseText.visibility =View.VISIBLE
+                binding.tvTransliterationIfEnglish.visibility =View.VISIBLE
+                binding.tvWordIfEnglish.visibility =View.VISIBLE
+                binding.view.visibility =View.VISIBLE
+                binding.tvTranslation.visibility =View.VISIBLE
+                binding.clTranslation.visibility =View.VISIBLE
+                binding.tvCommentries.visibility =View.VISIBLE
+                binding.clCommentries.visibility =View.VISIBLE
+                binding.backgroundImage.visibility =View.VISIBLE
+
+
+
+                binding.tvShowingMessage.visibility = View.GONE
+
+                binding.iv.visibility = View.GONE
 
             }
         }else{
             checkInternet()
         }
+
+
     }
 
     private fun onSaveVerse() {
@@ -64,6 +165,7 @@ class versesDetailFragment : Fragment() {
         binding.ivFavoriteVerseFilled.setOnClickListener {
             binding.ivFavoriteVerse.visibility = View.VISIBLE
             binding.ivFavoriteVerseFilled.visibility = View.GONE
+            deleteVerse()
         }
 
         binding.ivFavoriteVerse.setOnClickListener {
@@ -73,6 +175,15 @@ class versesDetailFragment : Fragment() {
             savingVerseDetails()
         }
     }
+
+    private fun deleteVerse() {
+        lifecycleScope.launch {
+            viewModel.deleteVerse(chapterNum,verseNum)
+        }
+
+    }
+
+
     fun savingVerseDetails(){
         verseDetail.observe(viewLifecycleOwner){
             val commentaryList = arrayListOf<Commentary>()
@@ -251,7 +362,6 @@ class versesDetailFragment : Fragment() {
 
             }
             binding.progressbar.visibility =View.GONE
-
             binding.tvVerseNumber.visibility =View.VISIBLE
             binding.tvVerseText.visibility =View.VISIBLE
             binding.tvTransliterationIfEnglish.visibility =View.VISIBLE

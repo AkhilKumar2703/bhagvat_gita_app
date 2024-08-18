@@ -54,7 +54,7 @@ class savedChaptersFragment : Fragment() {
                 binding.rvChapters.visibility = View.GONE
                 binding.tvShowingMessage.visibility = View.VISIBLE
             }
-            adapterChapters = AdapterChapters(::onChapterItemViewClicked,::onFavClicked)
+           adapterChapters = AdapterChapters(::onChapterItemViewClicked,::onFavClicked,::onFavFilledClicked)
             binding.rvChapters.adapter = adapterChapters
             adapterChapters.differ.submitList(chapterList)
 
@@ -73,6 +73,9 @@ class savedChaptersFragment : Fragment() {
     }
 
     fun onFavClicked(chaptersItem: ChaptersItem){
+
+    }
+    fun onFavFilledClicked(chaptersItem: ChaptersItem){
 
     }
     private fun changeStatusBarColour() {

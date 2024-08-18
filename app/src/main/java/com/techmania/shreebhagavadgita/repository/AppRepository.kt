@@ -86,6 +86,7 @@ class AppRepository(val savedChaptersDao: SavedChaptersDao,val savedVersesDao: S
     fun getSavedChapter(): LiveData<List<SavedChapters>> = savedChaptersDao.getSavedChapter()
     fun getAParticularChapter(chapter_number : Int) : LiveData<SavedChapters> = savedChaptersDao.getAParticularChapter(chapter_number)
 
+    suspend fun deleteChapter(id :Int) = savedChaptersDao.deleteChapter(id)
 
     //saved verses
 
