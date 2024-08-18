@@ -54,7 +54,13 @@ class savedChaptersFragment : Fragment() {
                 binding.rvChapters.visibility = View.GONE
                 binding.tvShowingMessage.visibility = View.VISIBLE
             }
-           adapterChapters = AdapterChapters(::onChapterItemViewClicked,::onFavClicked,::onFavFilledClicked)
+           adapterChapters = AdapterChapters(
+               ::onChapterItemViewClicked,
+               ::onFavClicked,
+               ::onFavFilledClicked,
+               viewModel,
+               false
+           )
             binding.rvChapters.adapter = adapterChapters
             adapterChapters.differ.submitList(chapterList)
 

@@ -6,6 +6,7 @@ import com.techmania.shreebhagavadgita.datasource.api.room.SavedChapters
 import com.techmania.shreebhagavadgita.datasource.api.room.SavedChaptersDao
 import com.techmania.shreebhagavadgita.datasource.api.room.SavedVerses
 import com.techmania.shreebhagavadgita.datasource.api.room.SavedVersesDao
+import com.techmania.shreebhagavadgita.datasource.api.sp.SharedPrefenceManager
 import com.techmania.shreebhagavadgita.models.ChaptersItem
 import com.techmania.shreebhagavadgita.models.VersesItem
 import kotlinx.coroutines.channels.awaitClose
@@ -16,7 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class AppRepository(val savedChaptersDao: SavedChaptersDao,val savedVersesDao: SavedVersesDao) {
+class AppRepository(val savedChaptersDao: SavedChaptersDao,val savedVersesDao: SavedVersesDao ,  val sharedPrefenceManager: SharedPrefenceManager) {
 
     fun getAllChapter() : Flow<List<ChaptersItem>> = callbackFlow {
         val callback =object  : Callback<List<ChaptersItem>>{
@@ -94,4 +95,10 @@ class AppRepository(val savedChaptersDao: SavedChaptersDao,val savedVersesDao: S
     fun getParticularVerse(chapterNumber : Int,verseNumber : Int) = savedVersesDao.getParticularVerse(chapterNumber, verseNumber)
     fun getAllVerse(): LiveData<List<SavedVerses>> =  savedVersesDao.getAllVerse()
     suspend fun insertVerse(verses: SavedVerses)  = savedVersesDao.insertVerse(verses)
+
+
+    // shared preference
+    fun getAllSavedChapters() : Set<String> = sharedPrefenceManager.getAllSavedChapters()
+    fun putSavedChaptersSP(key :  String , value : Int) = sharedPrefenceManager.putSavedChaptersSP(key, value)
+    fun deleteSavedChaptersSP(key : String) = sharedPrefenceManager.deleteSavedChaptersSP(key)
 }

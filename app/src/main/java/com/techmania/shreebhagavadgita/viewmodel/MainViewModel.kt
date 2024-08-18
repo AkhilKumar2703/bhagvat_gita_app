@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.techmania.shreebhagavadgita.datasource.api.room.AppDatabase
 import com.techmania.shreebhagavadgita.datasource.api.room.SavedChapters
 import com.techmania.shreebhagavadgita.datasource.api.room.SavedVerses
+import com.techmania.shreebhagavadgita.datasource.api.sp.SharedPrefenceManager
 import com.techmania.shreebhagavadgita.models.ChaptersItem
 import com.techmania.shreebhagavadgita.models.VersesItem
 import com.techmania.shreebhagavadgita.repository.AppRepository
@@ -14,7 +15,9 @@ import kotlinx.coroutines.flow.Flow
 class MainViewModel(application: Application): AndroidViewModel(application) {
     val savedChaptersDao=AppDatabase.getDatabaseInstance(application)?.savedChapterDao()
     val savedVersesDao=AppDatabase.getDatabaseInstance(application)?.savedVersesDao()
-    val appRepository = AppRepository(savedChaptersDao!!, savedVersesDao!!)
+    val sharedPrefenceManager = SharedPrefenceManager(application)
+
+    val appRepository = AppRepository(savedChaptersDao!!, savedVersesDao!! , sharedPrefenceManager )
     fun getAllChapter() : Flow<List<ChaptersItem>> = appRepository.getAllChapter()
     fun getVerses(chapterNumber : Int) : Flow<List<VersesItem>> = appRepository.getVerses(chapterNumber)
 
@@ -32,5 +35,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun getParticularVerse(chapterNumber : Int,verseNumber : Int) = appRepository.getParticularVerse(chapterNumber, verseNumber)
     fun getAllVerse(): LiveData<List<SavedVerses>> =  appRepository.getAllVerse()
     suspend fun insertVerse(verses: SavedVerses)  = appRepository.insertVerse(verses)
+
+    // shared preference
+    fun getAllSavedChaptersSP() : Set<String> = appRepository.getAllSavedChapters()
+    fun putSavedChaptersSP(key :  String , value : Int) = appRepository.putSavedChaptersSP(key, value)
+    fun deleteSavedChaptersSP(key : String) = appRepository.deleteSavedChaptersSP(key)
 
 }

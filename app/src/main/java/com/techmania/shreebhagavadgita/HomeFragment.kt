@@ -32,12 +32,30 @@ private  val viewModel : MainViewModel by viewModels()
         changeStatusBarColour()
         checkInternetConnectivity()
         getAllChapter()
+        showVerseOfTheDay()
         binding.ivSettings.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_settingsFragment) }
         return binding.root
     }
 
+    private fun showVerseOfTheDay() {
+        val chapterNumber = (1 .. 18).random()
+        val verseNumber = (1 .. 30).random()
+
+        lifecycleScope.launch {
+            viewModel.getAParticularVerse(chapterNumber,verseNumber).collect(){
+                for(i in it.translations){
+                    if(i.language == "hindi"){
+                        binding.tvVerseOfTheDay.text = i.description
+                        break
+                    }
+                }
+            }
+        }
+    }
+
     private fun onFavClicked(chaptersItem: ChaptersItem){
         lifecycleScope.launch {
+            viewModel.putSavedChaptersSP(chaptersItem.chapter_number.toString(),chaptersItem.id)
             viewModel.getVerses(chaptersItem.chapter_number).collect{
                 val verseList  = arrayListOf<String>()
                 for (currentVerse in it) {
@@ -73,6 +91,7 @@ private  val viewModel : MainViewModel by viewModels()
 
     private fun onFavFilledClicked(chaptersItem: ChaptersItem){
         lifecycleScope.launch {
+            viewModel.deleteSavedChaptersSP(chaptersItem.chapter_number.toString())
             viewModel.deleteChapter(chaptersItem.id)
         }
     }
@@ -98,7 +117,7 @@ private  val viewModel : MainViewModel by viewModels()
     private fun getAllChapter() {
         lifecycleScope.launch {
             viewModel.getAllChapter().collect{chapterList ->
-               adapterChapters = AdapterChapters(::onChapterIVClicked,::onFavClicked,::onFavFilledClicked)
+               adapterChapters = AdapterChapters(::onChapterIVClicked,::onFavClicked,::onFavFilledClicked , viewModel , true)
                 binding.rvChapters.adapter =adapterChapters
                 adapterChapters.differ.submitList(chapterList)
                 binding.shimmer.visibility = View.GONE
